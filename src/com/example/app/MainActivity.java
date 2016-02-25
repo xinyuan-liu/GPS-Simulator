@@ -30,12 +30,20 @@ public class MainActivity extends Activity implements LocationListener{
     private double speed=10.0;
     //private Track WeimingLake_inaccurate=new Track(lats1, lons1, lats1.length);
     private Track WeimingLake=new Track(lats2, lons2, lats2.length);
+    private boolean Permissionflag=true;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		inilocation();
-		startmocklocate();	
+		if(!Permissionflag)
+		{
+			TextView textView;
+		    textView=(TextView)findViewById(R.id.textView2);
+			textView.setText("Permission denied, please check your settings and restart the application.");
+		}
+		else startmocklocate();	
 	}
 	
 	private void startmocklocate()
@@ -54,8 +62,14 @@ public class MainActivity extends Activity implements LocationListener{
 	
 	private void inilocation() {
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        locationManager.addTestProvider(mMockProviderName, false, true, false, false, true, true,
-                true, 0, 5);
+        try{
+        	locationManager.addTestProvider(mMockProviderName, false, true, false, false, true, true,
+                    true, 0, 5);
+        } catch (SecurityException e) {
+        	Permissionflag=false;
+        	return;
+        }
+        
         locationManager.setTestProviderEnabled(mMockProviderName, true);
         locationManager.requestLocationUpdates(mMockProviderName, 0, 0, this);
         
@@ -75,6 +89,7 @@ public class MainActivity extends Activity implements LocationListener{
     }
 	
 	public void setspeed(View view) {
+		if(!Permissionflag)return;
 	    EditText editText = (EditText) findViewById(R.id.edit_message);
 	    String message = editText.getText().toString();
 	    double getnumber=0.0;
