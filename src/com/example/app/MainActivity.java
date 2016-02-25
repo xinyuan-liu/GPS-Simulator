@@ -84,7 +84,7 @@ public class MainActivity extends Activity implements LocationListener{
         location.setLongitude(longitude);
         location.setAltitude(53.0f+(float)Math.random()*5.0);
         location.setAccuracy(3.0f+(float)(Math.random()*2.0));
-        location.setSpeed((float) ((speed+0.2*speed*(Math.random()-0.5))/3.6));
+        location.setSpeed((float) ((speed+Math.random()-0.5)/3.6));
         locationManager.setTestProviderLocation(mMockProviderName, location);
     }
 	
