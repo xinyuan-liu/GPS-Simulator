@@ -4,7 +4,8 @@ import java.util.Random;
 
 public class Point {
 	public double lat,lon;
-	
+	private static double lat_dev=0.0,lon_dev=0.0;
+	private static double GPSaccuracy=1.0/20000.0;
 	Point(double lat_,double lon_)
 	{
 		lat=lat_;
@@ -32,9 +33,24 @@ public class Point {
 		return d;
 	}
 	
-	public Point random(double deviation)
+	public void footprintrandom(double deviation)
 	{
 		Random random = new Random();
-		return new Point(lat+random.nextGaussian()*deviation,lon+random.nextGaussian()*deviation);
+		lat=lat+random.nextGaussian()*deviation;
+		lon=lon+random.nextGaussian()*deviation;
+	}
+	public Point GPSrandom()
+	{
+		Random random = new Random();
+		if(Math.random()>0.7)
+		{
+			lat_dev=lat_dev+GPSaccuracy*random.nextGaussian();
+			if(Math.abs(lat_dev)>GPSaccuracy*3)
+				lat_dev=GPSaccuracy*random.nextGaussian();
+			lon_dev=lon_dev+GPSaccuracy*random.nextGaussian();
+			if(Math.abs(lon_dev)>GPSaccuracy*3)
+				lon_dev=GPSaccuracy*random.nextGaussian();
+		}
+		return new Point(lat+lat_dev,lon+lon_dev);
 	}
 }

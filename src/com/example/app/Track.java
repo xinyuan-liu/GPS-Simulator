@@ -48,7 +48,7 @@ public class Track {
 			}
 			curpoint=new Point(curpoint.lat+latdiff*rate,curpoint.lon+londiff*rate);;
 		}
-		if(random_track_flag)curpoint=curpoint.random(deviation);
-		return curpoint;
+		if(random_track_flag)curpoint.footprintrandom(deviation);
+		return curpoint.GPSrandom();
 	}
 }
