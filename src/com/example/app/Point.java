@@ -5,7 +5,7 @@ import java.util.Random;
 public class Point {
 	public double lat,lon;
 	private static double lat_dev=0.0,lon_dev=0.0;
-	private static double GPSaccuracy=1.0/20000.0;
+	private static double GPSaccuracy=1.0/30000.0;
 	Point(double lat_,double lon_)
 	{
 		lat=lat_;
@@ -41,15 +41,17 @@ public class Point {
 	}
 	public Point GPSrandom()
 	{
-		Random random = new Random();
-		if(Math.random()>0.7)
+		if(Math.random()>0.6)
 		{
-			lat_dev=lat_dev+GPSaccuracy*random.nextGaussian();
-			if(Math.abs(lat_dev)>GPSaccuracy*3)
-				lat_dev=GPSaccuracy*random.nextGaussian();
-			lon_dev=lon_dev+GPSaccuracy*random.nextGaussian();
-			if(Math.abs(lon_dev)>GPSaccuracy*3)
-				lon_dev=GPSaccuracy*random.nextGaussian();
+			do
+			{
+				lat_dev=lat_dev+GPSaccuracy*(Math.random()*2-1)*2;
+			} while(Math.abs(lat_dev)>GPSaccuracy*2);
+			do
+			{
+				lon_dev=lon_dev+GPSaccuracy*(Math.random()*2-1)*2;
+			}
+			while(Math.abs(lon_dev)>GPSaccuracy*2);
 		}
 		return new Point(lat+lat_dev,lon+lon_dev);
 	}
