@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.GPSSimulator;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

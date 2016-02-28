@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.GPSSimulator;
 
 import java.util.Random;
 
