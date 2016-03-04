@@ -86,6 +86,9 @@ public class Daemon extends Service implements LocationListener{
 	    super.onDestroy();
 	    thread_run=false;
 	    thread.interrupt();
+	    locationManager.clearTestProviderEnabled(mMockProviderName);
+	    locationManager.clearTestProviderLocation(mMockProviderName);
+	    locationManager.clearTestProviderStatus(mMockProviderName);
 	  }
 	
 	@Override

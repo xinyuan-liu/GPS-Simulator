@@ -39,7 +39,8 @@ public class MainActivity extends Activity implements LocationListener{
 			setContentView(R.layout.activity_main);
 			TextView textView;
 			textView=(TextView) findViewById(R.id.textView2);
-			textView.setText("Running... Speed:"+Double.toString(speed)+"km/h");
+			//textView.setText("Running... Speed:"+Double.toString(speed)+"km/h");
+			textView.setText("Running...");
 		}
 	}
 
@@ -73,7 +74,9 @@ public class MainActivity extends Activity implements LocationListener{
 	
 	public void onStopButtonClicked(View view)
 	{
-		
+		Intent intent = new Intent(getApplicationContext(), Daemon.class);  
+		stopService(intent);
+		setContentView(R.layout.choose_track);
 	}
 	
 	public void onStartButtonClicked(View view) 
@@ -89,7 +92,9 @@ public class MainActivity extends Activity implements LocationListener{
 		}
 		if(getnumber<36 && getnumber > 0.0)
 			speed=getnumber;
-		
+		else if(message.isEmpty())
+			speed=10;
+		else return;
 		Intent intent = new Intent(getApplicationContext(), Daemon.class);  
 		intent.putExtra("track_choosen",track_choosen);
 		intent.putExtra("speed", speed);
