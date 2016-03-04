@@ -28,14 +28,16 @@ public class MainActivity extends Activity implements LocationListener{
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		inilocation();
+		check_location_permission();
 		if(!Permissionflag)
 		{
 			permissionerror();
 		}
 		else
 		{
-			Intent intent = new Intent(getApplicationContext(), Damon.class);  
+			Intent intent = new Intent(getApplicationContext(), Daemon.class);  
+			intent.putExtra("track_choosen",track_choosen);
+			intent.putExtra("speed", speed);
 			startService(intent); 
 		}
 		
@@ -68,7 +70,6 @@ public class MainActivity extends Activity implements LocationListener{
 	{
 		setContentView(R.layout.activity_main);
 		
-		//startmocklocate();
 	}
 	
 	private void permissionerror()
@@ -81,8 +82,7 @@ public class MainActivity extends Activity implements LocationListener{
 	}
 	
 	
-	
-	private void inilocation() {
+	private void check_location_permission() {
 		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		try{
 			locationManager.addTestProvider(mMockProviderName, false, true, false, false, true, true,
@@ -90,10 +90,7 @@ public class MainActivity extends Activity implements LocationListener{
 		} catch (SecurityException e) {
 			Permissionflag=false;
 			return;
-		}//check permission
-		locationManager.setTestProviderEnabled(mMockProviderName, true);
-		locationManager.requestLocationUpdates(mMockProviderName, 0, 0, this);
-		
+		}		
 	}
 	
 	public void setspeed(View view) {

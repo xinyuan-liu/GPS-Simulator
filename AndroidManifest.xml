@@ -14,7 +14,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <service android:name=".Damon" />
+        <service android:name=".Daemon" />
         <activity
             android:name=".MainActivity"
             android:label="GPS-Simulator" >

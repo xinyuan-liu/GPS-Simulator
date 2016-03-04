@@ -12,7 +12,7 @@ import android.os.IBinder;
 import android.os.SystemClock;
 import android.view.View;
 
-public class Damon extends Service implements LocationListener{
+public class Daemon extends Service implements LocationListener{
 
 	
 	private String mMockProviderName = LocationManager.GPS_PROVIDER;;
@@ -22,14 +22,17 @@ public class Damon extends Service implements LocationListener{
 	private double lats_WSS[]={39.9867674,39.9858179,39.9857542,39.9857069,39.9856617,39.985633,39.9856165,39.9856042,39.9856042,39.9856083,39.9856309,39.9856761,39.9857234,39.9857665,39.9858056,39.9858734,39.9859124,39.9867653,39.986827,39.9868722,39.9869215,39.9869667,39.9869975,39.9870201,39.9870366,39.9870407,39.9870366,39.9870222,39.9870058,39.986979,39.9869503,39.9869112,39.9868598,39.9868146,39.9867674};
 	private double lons_WSS[]={116.306642,116.3067144,116.3067493,116.3068056,116.3068834,116.3069478,116.3070095,116.3070819,116.3071623,116.3072535,116.3073528,116.3074332,116.3075003,116.3075352,116.3075566,116.3075754,116.3075754,116.3075244,116.307503,116.3074735,116.3074225,116.3073742,116.3073125,116.3072348,116.307157,116.3070792,116.3070014,116.306937,116.3068753,116.3068217,116.3067707,116.3067251,116.3066795,116.30665,116.306642};
 
-	private int track_choosen=1;
-	private Track track=new Track(lats_WML, lons_WML, lats_WML.length);
+	private int track_choosen;
+	private Track track;
 	
 	private double speed=10.0;
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		inilocation();
+		Bundle bundle = intent.getExtras(); 
+		track_choosen=bundle.getInt("track_choosen");
+		speed=bundle.getDouble("speed");
 		startmocklocate();	
 		return 0;
 	}
