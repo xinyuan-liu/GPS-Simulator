@@ -12,39 +12,14 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
         android:layout_alignParentTop="true"
         android:textSize="18sp"
         android:text="@string/running" />
 
-    <EditText
-        android:id="@+id/edit_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView1"
-        android:textSize="18sp"
-        android:ems="10"
-        android:hint="@string/hint" />
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/edit_message"
-        android:layout_below="@+id/edit_message"
-        android:onClick="setspeed"
-        android:text="@string/OK" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/edit_message"
-        android:layout_below="@+id/textView2"
-        android:layout_marginTop="19dp"
-        android:text="Set speed(km/h):"
-        android:textSize="18sp" />
+
+
+    
 
 </RelativeLayout>

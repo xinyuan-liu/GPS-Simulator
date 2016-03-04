@@ -10,7 +10,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
-import android.view.View;
 
 public class Daemon extends Service implements LocationListener{
 
@@ -79,10 +78,6 @@ public class Daemon extends Service implements LocationListener{
 		location.setAccuracy(5.0f+(float)(Math.random()*2.0));
 		location.setSpeed((float) ((speed+Math.random()-0.5)/3.6));
 		locationManager.setTestProviderLocation(mMockProviderName, location);
-	}
-	
-	public void setspeed(View view) {
-		
 	}
 	
 	@Override

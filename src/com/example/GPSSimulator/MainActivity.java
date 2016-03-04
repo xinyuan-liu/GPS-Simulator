@@ -27,49 +27,56 @@ public class MainActivity extends Activity implements LocationListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.choose_track);
 		check_location_permission();
 		if(!Permissionflag)
-		{
 			permissionerror();
-		}
-		else
-		{
-			Intent intent = new Intent(getApplicationContext(), Daemon.class);  
-			intent.putExtra("track_choosen",track_choosen);
-			intent.putExtra("speed", speed);
-			startService(intent); 
-		}
+		
+		
+		
 		
 	}
 
 	
-	
 	public void onRadioButtonClicked(View view) {
 		
 	    boolean checked = ((RadioButton)view).isChecked();
-	    
 	    // Check which radio button was clicked
 	    switch(view.getId()) {
 	        case R.id.Button_WML:
 	            if (checked)
-	            {
 	            	track_choosen=1;
-	            }
 	            break;
 	        case R.id.Button_WSS:
 	            if (checked)
-	            {
 	            	track_choosen=2;
-	            }
 	            break;
 	    }
 	}
 	
 	public void onStartButtonClicked(View view) 
 	{
-		setContentView(R.layout.activity_main);
 		
+		EditText editText = (EditText) findViewById(R.id.edit_message);
+		String message = editText.getText().toString();
+		double getnumber=0.0;
+		try{
+			 getnumber = Double.parseDouble(message);
+		} catch ( Exception e) {
+			e.printStackTrace();
+		}
+		if(getnumber<36 && getnumber > 0.0)
+			speed=getnumber;
+		
+		Intent intent = new Intent(getApplicationContext(), Daemon.class);  
+		intent.putExtra("track_choosen",track_choosen);
+		intent.putExtra("speed", speed);
+		startService(intent);
+		
+		setContentView(R.layout.activity_main);
+		TextView textView;
+		textView=(TextView) findViewById(R.id.textView2);
+		textView.setText("Running... Speed:"+Double.toString(speed)+"km/h");
 	}
 	
 	private void permissionerror()
@@ -92,27 +99,6 @@ public class MainActivity extends Activity implements LocationListener{
 			return;
 		}		
 	}
-	
-	public void setspeed(View view) {
-		EditText editText = (EditText) findViewById(R.id.edit_message);
-		String message = editText.getText().toString();
-		double getnumber=0.0;
-		try{
-			 getnumber = Double.parseDouble(message);
-		} catch ( Exception e) {
-			e.printStackTrace();
-		}
-		TextView textView;
-		textView=(TextView) findViewById(R.id.textView2);
-		if(getnumber<36 && getnumber > 0.0)
-		{
-			speed=getnumber;
-			textView.setText("Running... Speed:"+Double.toString(speed)+"km/h");
-		}
-	}
-	
-	
-
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
