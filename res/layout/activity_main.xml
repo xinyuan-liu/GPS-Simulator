@@ -16,10 +16,15 @@
         android:textSize="18sp"
         android:text="@string/running" />
 
-
-
-
-
-    
+    <Button
+        android:id="@+id/button_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:layout_marginRight="48dp"
+        android:layout_marginTop="21dp"
+        android:onClick="onStopButtonClicked"
+        android:text="Stop" />
 
 </RelativeLayout>

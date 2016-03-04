@@ -31,7 +31,7 @@ public class Track {
 			try {
 				Thread.sleep(time);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				
 			}
 			pre=next;
 			curpoint=keypoint[pre];
@@ -49,7 +49,6 @@ public class Track {
 			curpoint=new Point(curpoint.lat+latdiff*rate,curpoint.lon+londiff*rate);;
 		}
 		if(random_track_flag)curpoint.footprintrandom(deviation);
-		//return curpoint.GPSrandom();
-		return curpoint;
+		return curpoint.GPSrandom();
 	}
 }

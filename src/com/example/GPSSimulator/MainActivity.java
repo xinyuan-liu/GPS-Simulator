@@ -1,6 +1,9 @@
 package com.example.GPSSimulator;
 
+import java.util.List;
+
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -22,7 +25,7 @@ public class MainActivity extends Activity implements LocationListener{
 	private boolean Permissionflag=true;
 	private int track_choosen=1;
 	private double speed=10.0;
-	
+	private String ServiceName="com.example.GPSSimulator.Daemon";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -31,12 +34,26 @@ public class MainActivity extends Activity implements LocationListener{
 		check_location_permission();
 		if(!Permissionflag)
 			permissionerror();
-		
-		
-		
-		
+		else if(checkdaemonservice())
+		{
+			setContentView(R.layout.activity_main);
+			TextView textView;
+			textView=(TextView) findViewById(R.id.textView2);
+			textView.setText("Running... Speed:"+Double.toString(speed)+"km/h");
+		}
 	}
 
+	private boolean checkdaemonservice() 
+	{
+		ActivityManager mActivityManager = (ActivityManager)getSystemService(ACTIVITY_SERVICE);   
+		List<ActivityManager.RunningServiceInfo> mServiceList = mActivityManager.getRunningServices(30);
+		for(int i=0;i<mServiceList.size();i++)
+		{
+			if(ServiceName.equals(mServiceList.get(i).service.getClassName()))  
+				return true;
+		}
+		return false;
+	}
 	
 	public void onRadioButtonClicked(View view) {
 		
@@ -52,6 +69,11 @@ public class MainActivity extends Activity implements LocationListener{
 	            	track_choosen=2;
 	            break;
 	    }
+	}
+	
+	public void onStopButtonClicked(View view)
+	{
+		
 	}
 	
 	public void onStartButtonClicked(View view) 
