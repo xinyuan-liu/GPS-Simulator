@@ -7,4 +7,5 @@
 	<string name="hint">Insert an interger or decimal</string>
 	<string name="OK">OK</string>
 	<string name="running">Running... Speed:10.0km/h</string>
+	<string name="choose_track">Please choose a GPS track:</string>
 </resources>
