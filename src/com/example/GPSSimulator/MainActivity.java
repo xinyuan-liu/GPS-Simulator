@@ -84,6 +84,13 @@ public class MainActivity extends Activity implements LocationListener{
 	    }
 	}
 	
+	private String getTrackName()
+	{
+		if(track_choosen==1)return "The Weiming Lake";
+		if(track_choosen==2)return "Wusi Stadium";
+		return new String();
+	}
+	
 	public void onStopButtonClicked(View view)
 	{
 		Intent intent = new Intent(getApplicationContext(), Daemon.class);  
@@ -116,7 +123,7 @@ public class MainActivity extends Activity implements LocationListener{
 		setContentView(R.layout.activity_main);
 		TextView textView;
 		textView=(TextView) findViewById(R.id.textView2);
-		textView.setText("Running... Speed:"+Double.toString(speed)+"km/h");
+		textView.setText("Running... \nSpeed:"+Double.toString(speed)+"km/h\n"+"Track:"+getTrackName());
 	}
 	
 	private void permissionerror()
@@ -189,9 +196,10 @@ public class MainActivity extends Activity implements LocationListener{
         @Override  
         public void onReceive(Context context, Intent intent) {  
             speed = intent.getDoubleExtra("speed", 0.0);
+            track_choosen=intent.getIntExtra("track_choosen", 0);
             TextView textView;
 			textView=(TextView) findViewById(R.id.textView2);
-			textView.setText("Running... Speed:"+Double.toString(speed)+"km/h");
+			textView.setText("Running... \nSpeed:"+Double.toString(speed)+"km/h\n"+"Track:"+getTrackName());
 			unregisterReceiver(msgReceiver);
         }  
           

@@ -34,6 +34,7 @@ public class Daemon extends Service implements LocationListener{
 		if(bundle.getBoolean("broadcast_request"))
 		{
 			broadcast_intent.putExtra("speed", speed);
+			broadcast_intent.putExtra("track_choosen", track_choosen);
 			sendBroadcast(broadcast_intent);
 		}
 		else
