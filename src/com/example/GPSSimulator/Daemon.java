@@ -24,16 +24,25 @@ public class Daemon extends Service implements LocationListener{
 	private boolean thread_run=true;
 	private int track_choosen;
 	private Track track;
-	
+	private Intent broadcast_intent = new Intent("com.example.GPSSimulator.RECEIVER"); 
 	private double speed=10.0;
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		inilocation();
 		Bundle bundle = intent.getExtras(); 
-		track_choosen=bundle.getInt("track_choosen");
-		speed=bundle.getDouble("speed");
-		startmocklocate();	
+		if(bundle.getBoolean("broadcast_request"))
+		{
+			broadcast_intent.putExtra("speed", speed);
+			sendBroadcast(broadcast_intent);
+		}
+		else
+		{
+			track_choosen=bundle.getInt("track_choosen");
+			speed=bundle.getDouble("speed");
+			startmocklocate();
+		}
+		
 		return 0;
 	}
 
@@ -83,12 +92,13 @@ public class Daemon extends Service implements LocationListener{
 	
 	@Override
 	public void onDestroy() {
-	    super.onDestroy();
+	    
 	    thread_run=false;
 	    thread.interrupt();
 	    locationManager.clearTestProviderEnabled(mMockProviderName);
 	    locationManager.clearTestProviderLocation(mMockProviderName);
 	    locationManager.clearTestProviderStatus(mMockProviderName);
+	    super.onDestroy();
 	  }
 	
 	@Override

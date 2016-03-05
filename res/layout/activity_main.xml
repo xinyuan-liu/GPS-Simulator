@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textSize="18sp"
-        android:text="@string/running" />
+        android:text="Running..." />
 
     <Button
         android:id="@+id/button_stop"

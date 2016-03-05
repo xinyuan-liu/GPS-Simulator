@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,10 +18,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.content.BroadcastReceiver; 
 
 public class MainActivity extends Activity implements LocationListener{
 
 	private String mMockProviderName = LocationManager.GPS_PROVIDER;;
+	private MsgReceiver msgReceiver;
 	private LocationManager locationManager;
 	private boolean Permissionflag=true;
 	private int track_choosen=1;
@@ -35,15 +38,24 @@ public class MainActivity extends Activity implements LocationListener{
 		if(!Permissionflag)
 			permissionerror();
 		else if(checkdaemonservice())
-		{
-			setContentView(R.layout.activity_main);
-			TextView textView;
-			textView=(TextView) findViewById(R.id.textView2);
-			//textView.setText("Running... Speed:"+Double.toString(speed)+"km/h");
-			textView.setText("Running...");
-		}
+			restartactivity();
 	}
-
+	
+	private void restartactivity()
+	{
+		setContentView(R.layout.activity_main);
+		TextView textView;
+		textView=(TextView) findViewById(R.id.textView2);
+		textView.setText("Running...");
+		msgReceiver = new MsgReceiver();  
+        IntentFilter intentFilter = new IntentFilter();  
+        intentFilter.addAction("com.example.GPSSimulator.RECEIVER");  
+        registerReceiver(msgReceiver, intentFilter);
+        Intent intent = new Intent(getApplicationContext(), Daemon.class);
+		intent.putExtra("broadcast_request", true);
+		startService(intent);
+	}
+	
 	private boolean checkdaemonservice() 
 	{
 		ActivityManager mActivityManager = (ActivityManager)getSystemService(ACTIVITY_SERVICE);   
@@ -95,7 +107,8 @@ public class MainActivity extends Activity implements LocationListener{
 		else if(message.isEmpty())
 			speed=10;
 		else return;
-		Intent intent = new Intent(getApplicationContext(), Daemon.class);  
+		Intent intent = new Intent(getApplicationContext(), Daemon.class);
+		intent.putExtra("broadcast_request", false);
 		intent.putExtra("track_choosen",track_choosen);
 		intent.putExtra("speed", speed);
 		startService(intent);
@@ -171,4 +184,16 @@ public class MainActivity extends Activity implements LocationListener{
 		Log.i("gps", String.format("location: x=%s y=%s", lat, lng));
 	}
 	
+	
+	public class MsgReceiver extends BroadcastReceiver{  
+        @Override  
+        public void onReceive(Context context, Intent intent) {  
+            speed = intent.getDoubleExtra("speed", 0.0);
+            TextView textView;
+			textView=(TextView) findViewById(R.id.textView2);
+			textView.setText("Running... Speed:"+Double.toString(speed)+"km/h");
+			unregisterReceiver(msgReceiver);
+        }  
+          
+    }
 }
